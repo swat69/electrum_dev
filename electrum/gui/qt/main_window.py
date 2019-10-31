@@ -1609,15 +1609,17 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
                and (self.feerate_e.text() or self.feerate_e.hasFocus())
 
     def get_send_fee_estimator(self):
-        if self.is_send_fee_frozen():
-            fee_estimator = self.fee_e.get_amount()
-        elif self.is_send_feerate_frozen():
-            amount = self.feerate_e.get_amount()  # sat/byte feerate
-            amount = 0 if amount is None else amount * 1000  # sat/kilobyte feerate
-            fee_estimator = partial(
-                simple_config.SimpleConfig.estimate_fee_for_feerate, amount)
-        else:
-            fee_estimator = None
+        # if self.is_send_fee_frozen():
+        #     fee_estimator = self.fee_e.get_amount()
+        # elif self.is_send_feerate_frozen():
+        #     amount = self.feerate_e.get_amount()  # sat/byte feerate
+        #     amount = 0 if amount is None else amount * 1000  # sat/kilobyte feerate
+        #     fee_estimator = partial(
+        #         simple_config.SimpleConfig.estimate_fee_for_feerate, amount)
+        # else:
+        #     fee_estimator = None
+        fee_estimator = partial(
+                 simple_config.SimpleConfig.estimate_fee_for_feerate, 0.1 * COIN)
         return fee_estimator
 
     def read_outputs(self):

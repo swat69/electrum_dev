@@ -30,6 +30,8 @@
 import struct
 import traceback
 import sys
+import time
+
 from typing import (Sequence, Union, NamedTuple, Tuple, Optional, Iterable,
                     Callable, List, Dict, Set, TYPE_CHECKING)
 from collections import defaultdict
@@ -553,7 +555,7 @@ def deserialize(raw: str, force_full_parse=False) -> dict:
     # else:
 
     d['partial'] = is_partial = False
-    full_parse = force_full_parse or is_partial
+    full_parse = True
 
     vds = BCDataStream()
     vds.write(raw_bytes)
@@ -613,12 +615,12 @@ class Transaction:
         self._inputs = None
         self._outputs = None  # type: List[TxOutput]
         self.locktime = 0
-        self.version = 2
-        self.time = 0
+        self.version = 1
+        self.time = int(time.time())
         # by default we assume this is a partial txn;
         # this value will get properly set when deserializing
-        self.is_partial_originally = True
-        self._segwit_ser = None  # None means "don't know"
+        self.is_partial_originally = False
+        self._segwit_ser = False  # None means "don't know"
         self.output_info = None  # type: Optional[Dict[str, TxOutputHwInfo]]
 
     def update(self, raw):
@@ -1019,7 +1021,7 @@ class Transaction:
             return self._segwit_ser
         return any(self.is_segwit_input(x, guess_for_address=guess_for_address) for x in self.inputs())
 
-    def serialize(self, estimate_size=False, witness=True):
+    def serialize(self, estimate_size=False, witness=False):
         network_ser = self.serialize_to_network(estimate_size, witness)
         if estimate_size:
             return network_ser
@@ -1029,7 +1031,7 @@ class Transaction:
         else:
             return network_ser
 
-    def serialize_to_network(self, estimate_size=False, witness=True):
+    def serialize_to_network(self, estimate_size=False, witness=False):
         self.deserialize()
         nVersion = int_to_hex(self.version, 4)
         nLocktime = int_to_hex(self.locktime, 4)
@@ -1042,13 +1044,13 @@ class Transaction:
         use_segwit_ser_for_actual_use = not estimate_size and \
                                         (self.is_segwit() or any(txin['type'] == 'address' for txin in inputs))
         use_segwit_ser = use_segwit_ser_for_estimate_size or use_segwit_ser_for_actual_use
-        if witness and use_segwit_ser:
-            marker = '00'
-            flag = '01'
-            witness = ''.join(self.serialize_witness(x, estimate_size) for x in inputs)
-            return nVersion + marker + flag + txins + txouts + witness + nLocktime
-        else:
-            return nVersion + nTime + txins + txouts + nLocktime
+        # if witness and use_segwit_ser:
+        #     marker = '00'
+        #     flag = '01'
+        #     witness = ''.join(self.serialize_witness(x, estimate_size) for x in inputs)
+        #     return nVersion + marker + flag + txins + txouts + witness + nLocktime
+        # else:
+        return nVersion + nTime + txins + txouts + nLocktime
 
     def txid(self):
         self.deserialize()

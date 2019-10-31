@@ -4,6 +4,7 @@ import time
 import os
 import stat
 import ssl
+import math
 from decimal import Decimal
 from typing import Union, Optional
 from numbers import Real
@@ -24,12 +25,11 @@ FEE_LN_ETA_TARGET = 2  # note: make sure the network is asking for estimates for
 
 # satoshi per kbyte
 FEERATE_MAX_DYNAMIC = 1500000
-FEERATE_WARNING_HIGH_FEE = 600000
-FEERATE_FALLBACK_STATIC_FEE = 150000
-FEERATE_DEFAULT_RELAY = 1000
-FEERATE_MAX_RELAY = 50000
-FEERATE_STATIC_VALUES = [1000, 2000, 5000, 10000, 20000, 30000,
-                         50000, 70000, 100000, 150000, 200000, 300000]
+FEERATE_WARNING_HIGH_FEE = 100000 * 100 # 10 Coins high fee
+FEERATE_FALLBACK_STATIC_FEE = 100000
+FEERATE_DEFAULT_RELAY = 100000
+FEERATE_MAX_RELAY = 100000
+FEERATE_STATIC_VALUES = [100000]
 FEERATE_REGTEST_HARDCODED = 180000  # for eclair compat
 
 
@@ -493,24 +493,24 @@ class SimpleConfig(Logger):
 
         fee_level: float between 0.0 and 1.0, representing fee slider position
         """
-        if constants.net is constants.BitcoinRegtest:
-            return FEERATE_REGTEST_HARDCODED
-        if dyn is None:
-            dyn = self.is_dynfee()
-        if mempool is None:
-            mempool = self.use_mempool_fees()
-        if fee_level is not None:
-            return self._feerate_from_fractional_slider_position(fee_level, dyn, mempool)
+        # if constants.net is constants.BitcoinRegtest:
+        #     return FEERATE_REGTEST_HARDCODED
+        # if dyn is None:
+        #     dyn = self.is_dynfee()
+        # if mempool is None:
+        #     mempool = self.use_mempool_fees()
+        # if fee_level is not None:
+        #     return self._feerate_from_fractional_slider_position(fee_level, dyn, mempool)
         # there is no fee_level specified; will use config.
         # note: 'depth_level' and 'fee_level' in config are integer slider positions,
         # unlike fee_level here, which (when given) is a float in [0.0, 1.0]
-        if dyn:
-            if mempool:
-                fee_rate = self.depth_to_fee(self.get_depth_level())
-            else:
-                fee_rate = self.eta_to_fee(self.get_fee_level())
-        else:
-            fee_rate = self.get('fee_per_kb', FEERATE_FALLBACK_STATIC_FEE)
+        # if dyn:
+        #     if mempool:
+        #         fee_rate = self.depth_to_fee(self.get_depth_level())
+        #     else:
+        #         fee_rate = self.eta_to_fee(self.get_fee_level())
+        # else:
+        fee_rate = self.get('fee_per_kb', FEERATE_FALLBACK_STATIC_FEE)
         return fee_rate
 
     def fee_per_byte(self):
@@ -534,12 +534,11 @@ class SimpleConfig(Logger):
     def estimate_fee_for_feerate(cls, fee_per_kb: Union[int, float, Decimal],
                                  size: Union[int, float, Decimal]) -> int:
         size = Decimal(size)
+
         fee_per_kb = Decimal(fee_per_kb)
-        fee_per_byte = fee_per_kb / 1000
-        # to be consistent with what is displayed in the GUI,
-        # the calculation needs to use the same precision:
-        fee_per_byte = quantize_feerate(fee_per_byte)
-        return round(fee_per_byte * size)
+        ceildSize = math.ceil(size / 999)
+
+        return round(ceildSize * fee_per_kb)
 
     def update_fee_estimates(self, key, value):
         self.fee_estimates[key] = value

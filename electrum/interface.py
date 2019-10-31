@@ -552,7 +552,7 @@ class Interface(Logger):
             # not have the header itself. e.g. regtest chain with only genesis.
             # this situation resolves itself on the next block
             return 'catchup', height+1
-
+            
         can_connect = blockchain.can_connect(header) if 'mock' not in header else header['mock']['connect'](height)
         if not can_connect:
             self.logger.info(f"can't connect {height}")
@@ -629,6 +629,7 @@ class Interface(Logger):
             nonlocal height, header
             checkp = False
             if height <= constants.net.max_checkpoint():
+                self.logger.info(f"Height: {height} min Height: {constants.net.max_checkpoint()}")
                 height = constants.net.max_checkpoint()
                 checkp = True
             header = await self.get_block_header(height, 'backward')

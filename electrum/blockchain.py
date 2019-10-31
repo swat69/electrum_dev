@@ -22,6 +22,7 @@
 # SOFTWARE.
 import os
 import threading
+import scrypt
 from typing import Optional, Dict, Mapping, Sequence
 
 from . import util
@@ -79,7 +80,8 @@ def hash_header(header: dict) -> str:
 
 
 def hash_raw_header(header: str) -> str:
-    return hash_encode(sha256d(bfh(header)))
+    byteHeader = bfh(header)
+    return hash_encode(scrypt.hash(byteHeader, byteHeader, 1024, 1, 1, 32))
 
 
 # key: blockhash hex at forkpoint
@@ -289,12 +291,12 @@ class Blockchain(Logger):
             raise Exception("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
         if constants.net.TESTNET:
             return
-        bits = cls.target_to_bits(target)
-        if bits != header.get('bits'):
-            raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
-        block_hash_as_num = int.from_bytes(bfh(_hash), byteorder='big')
-        if block_hash_as_num > target:
-            raise Exception(f"insufficient proof of work: {block_hash_as_num} vs target {target}")
+        # bits = int(target, 16)
+        # if bits != header.get('bits'):
+        #     raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
+        # block_hash_as_num = int.from_bytes(bfh(_hash), byteorder='big')
+        # if block_hash_as_num > target:
+        #     raise Exception(f"insufficient proof of work: {block_hash_as_num} vs target {target}")
 
     def verify_chunk(self, index: int, data: bytes) -> None:
         num = len(data) // HEADER_SIZE
@@ -370,7 +372,7 @@ class Blockchain(Logger):
         they will be stored in different files."""
         if self.parent is None:
             return False
-        if self.parent.get_chainwork() >= self.get_chainwork():
+        if self.parent.height() >= self.height():
             return False
         self.logger.info(f"swapping {self.forkpoint} {self.parent.forkpoint}")
         parent_branch_size = self.parent.height() - self.forkpoint + 1

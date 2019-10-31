@@ -456,7 +456,7 @@ class Network(Logger):
         self.notify('fee_histogram')
         fee_estimates_eta = {}
         for nblock_target, task in fee_tasks:
-            fee = int(task.result() * COIN)
+            fee = int(0.1 * COIN)
             fee_estimates_eta[nblock_target] = fee
             if fee < 0: continue
             self.config.update_fee_estimates(nblock_target, fee)
