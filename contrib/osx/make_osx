@@ -4,7 +4,7 @@
 PYTHON_VERSION=3.6.4
 BUILDDIR=/tmp/electrum-build
 PACKAGE=Electrum
-GIT_REPO=https://github.com/spesmilo/electrum
+GIT_REPO=https://github.com/vergecurrency/electrum
 LIBSECP_VERSION="b408c6a8b287003d1ade5709e6f7bc3c7f1d5be7"
 
 . $(dirname "$0")/base.sh
@@ -18,6 +18,10 @@ cd $src_dir/../..
 
 export PYTHONHASHSEED=22
 VERSION=`git describe --tags --dirty --always`
+
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+
 
 which brew > /dev/null 2>&1 || fail "Please install brew from https://brew.sh/ to continue"
 which xcodebuild > /dev/null 2>&1 || fail "Please install Xcode and xcode command line tools to continue"
@@ -117,7 +121,6 @@ xcodebuild || cp -r prebuilt_qr build || fail "Could not build CalinsQRReader"
 popd
 DoCodeSignMaybe "CalinsQRReader.app" "${d}/build/Release/CalinsQRReader.app" "$APP_SIGN" # If APP_SIGN is empty will be a noop
 
-
 info "Installing requirements..."
 python3 -m pip install -Ir ./contrib/deterministic-build/requirements.txt --user || \
 fail "Could not install requirements"
@@ -146,6 +149,10 @@ plutil -insert 'CFBundleURLTypes' \
 	|| fail "Could not add keys to Info.plist. Make sure the program 'plutil' exists and is installed."
 
 DoCodeSignMaybe "app bundle" "dist/${PACKAGE}.app" "$APP_SIGN" # If APP_SIGN is empty will be a noop
+
+
+# cd contrib/osx/notarize && npm i && cd ../../../
+# node contrib/osx/notarize/notarizing.js ./dist/${PACKAGE}.app
 
 info "Creating .DMG"
 hdiutil create -fs HFS+ -volname $PACKAGE -srcfolder dist/$PACKAGE.app dist/electrum-$VERSION.dmg || fail "Could not create .DMG"
