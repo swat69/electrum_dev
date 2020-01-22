@@ -39,8 +39,11 @@ RUN wget -nc https://dl.winehq.org/wine-builds/Release.key && \
         wine-stable:amd64 \
         winehq-stable:amd64
 
-RUN apt-get install -qy winetricks
-RUN winetricks vcrun2015
+RUN apt-get install -qy xvfb
+RUN wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && chmod u+x winetricks
+RUN WINEDLLOVERRIDES="mscoree,mshtml=" xvfb-run wine wineboot && \
+	xvfb-run wineserver -w && \
+	xvfb-run ./winetricks -q vcrun2015
 
 RUN rm -rf /var/lib/apt/lists/* && \
     apt-get autoremove -y && \
