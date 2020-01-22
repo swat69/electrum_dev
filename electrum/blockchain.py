@@ -23,7 +23,6 @@
 import os
 import threading
 from typing import Optional, Dict, Mapping, Sequence
-from viacoin_scrypt import getPoWHash as scryptHash
 
 from . import util
 from .bitcoin import hash_encode, int_to_hex, rev_hex
@@ -32,6 +31,12 @@ from .util import bfh, bh2u
 from .simple_config import SimpleConfig
 from .logging import get_logger, Logger
 
+try:
+    import scrypt
+    getPoWHash = lambda x: scrypt.hash(x, x, N=1024, r=1, p=1, buflen=32)
+except ImportError:
+    util.print_msg("Warning: package scrypt not available; synchronization could be very slow")
+    from .scrypt import scrypt_1024_1_1_80 as getPoWHash
 
 _logger = get_logger(__name__)
 
@@ -80,7 +85,7 @@ def hash_header(header: dict) -> str:
 
 def hash_raw_header(header: str) -> str:
     header_bytes = bfh(header)
-    return hash_encode(scryptHash(header_bytes))
+    return hash_encode(getPoWHash(header_bytes))
 
 
 # key: blockhash hex at forkpoint
