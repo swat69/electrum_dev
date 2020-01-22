@@ -39,6 +39,9 @@ RUN wget -nc https://dl.winehq.org/wine-builds/Release.key && \
         wine-stable:amd64 \
         winehq-stable:amd64
 
+RUN apt-get install -qy winetricks
+RUN winetricks vcrun2015
+
 RUN rm -rf /var/lib/apt/lists/* && \
     apt-get autoremove -y && \
     apt-get clean
