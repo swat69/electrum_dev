@@ -10,6 +10,7 @@ aiohttp_socks
 certifi
 bitstring
 pycryptodomex>=3.7
-scrypt>=0.6.0
+litecoin_scrypt>=1.0.1
+
 jsonrpcserver
 jsonrpcclient
