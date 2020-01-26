@@ -48,11 +48,19 @@ PyQt5-sip==4.19.13 \
     --hash=sha256:a91a308a5e0cc99de1e97afd8f09f46dd7ca20cfaa5890ef254113eebaa1adff \
     --hash=sha256:b0342540da479d2713edc68fb21f307473f68da896ad5c04215dae97630e0069 \
     --hash=sha256:f997e21b4e26a3397cb7b255b8d1db5b9772c8e0c94b6d870a5a0ab5c27eacaa
-litecoin_scrypt==1.0.1 \
-    --hash=sha256:cbeba02b6901cfd84e4b0f515e3dd615941a0fa8b1af7000f4810b9520f1678d
-setuptools==41.1.0 \
-    --hash=sha256:bce3560fae29e9efa45fdb6e9fceddb1cde0cccebb050ee134262283b3ccbc7b \
-    --hash=sha256:c519b84c299911fd94ef47e3de4fe678c254aefc5cdf8a9b12e4cdc8cc3744a8
+setuptools==42.0.2 \
+    --hash=sha256:c5b372090d7c8709ce79a6a66872a91e518f7d65af97fca78135e1cb10d4b940 \
+    --hash=sha256:c8abd0f3574bc23afd2f6fd2c415ba7d9e097c8a99b845473b0d957ba1e2dac6
+cryptography==2.8.0 \
+    --hash=sha256:b43f53f29816ba1db8525f006fa6f49292e9b029554b3eb56a189a70f2a40879 \
+    --hash=sha256:1df22371fbf2004c6f64e927668734070a8953362cd8370ddd336774d6743595
+cffi==1.13.2 \
+    --hash=sha256:0e3ea92942cb1168e38c05c1d56b0527ce31f1a370f6117f1d490b8dcd6b3a04 \
+    --hash=sha256:62f2578358d3a92e4ab2d830cd1c2049c9c0d0e6d3c58322993cc341bdeac22e                                                                 
+six==1.14.0 \
+    --hash=sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c
+pycparser==2.19.0 \
+    --hash=sha256:a988718abfad80b6b157acce7bf130a30876d27603738ac39f140993246b25b3
 wheel==0.33.6 \
     --hash=sha256:10c9da68765315ed98850f8e048347c3eb06dd81822dc2ab1d4fde9dc9702646 \
     --hash=sha256:f4da1763d3becf2e2cd92a14a7c920f0f00eca30fdde9ea992c836685b9faf28

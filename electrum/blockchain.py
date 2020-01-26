@@ -32,8 +32,10 @@ from .simple_config import SimpleConfig
 from .logging import get_logger, Logger
 
 try:
-    import litecoin_scrypt
-    getPoWHash = lambda x: litecoin_scrypt.getPoWHash(x)
+    from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+    from cryptography.hazmat.backends import default_backend
+    backend = default_backend()
+    getPoWHash = lambda x: Scrypt(salt=x, length=32, n=1024, r=1, p=1, backend=backend).derive(x)
 except ImportError as err:
     print("Import error: {0}".format(err))
     util.print_msg("Warning: package scrypt not available; synchronization could be very slow")
