@@ -113,7 +113,7 @@ class TrezorPlugin(HW_PluginBase):
     keystore_class = TrezorKeyStore
     minimum_library = (0, 11, 0)
     maximum_library = (0, 12)
-    SUPPORTED_XTYPES = ('standard', 'p2wpkh-p2sh', 'p2wpkh', 'p2wsh-p2sh', 'p2wsh')
+    SUPPORTED_XTYPES = ('standard') # 'p2wpkh-p2sh', 'p2wpkh', 'p2wsh-p2sh', 'p2wsh')
     DEVICE_IDS = (TREZOR_PRODUCT_KEY,)
 
     MAX_LABEL_LEN = 32
@@ -183,7 +183,7 @@ class TrezorPlugin(HW_PluginBase):
         return client
 
     def get_coin_name(self):
-        return "Testnet" if constants.net.TESTNET else "Bitcoin"
+        return "Testnet" if constants.net.TESTNET else "Verge"
 
     def initialize_device(self, device_id, wizard, handler):
         # Initialization method
@@ -332,7 +332,7 @@ class TrezorPlugin(HW_PluginBase):
         client = self.get_client(keystore)
         inputs = self.tx_inputs(tx, xpub_path, True)
         outputs = self.tx_outputs(keystore.get_derivation(), tx)
-        details = SignTx(lock_time=tx.locktime, version=tx.version)
+        details = SignTx(lock_time=tx.locktime, version=tx.version, timestamp=tx.time)
         signatures, _ = client.sign_tx(self.get_coin_name(), inputs, outputs, details=details, prev_txes=prev_tx)
         signatures = [(bh2u(x) + '01') for x in signatures]
         tx.update_signatures(signatures)
@@ -478,6 +478,7 @@ class TrezorPlugin(HW_PluginBase):
             return t
         d = deserialize(tx.raw)
         t.version = d['version']
+        t.timestamp = d['time']
         t.lock_time = d['lockTime']
         t.inputs = self.tx_inputs(tx, xpub_path)
         t.bin_outputs = [
