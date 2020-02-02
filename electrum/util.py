@@ -71,7 +71,7 @@ base_units = {'XVG':6, 'mXVG':5, 'bits':2, 'sat':0}
 base_units_inverse = inv_dict(base_units)
 base_units_list = ['XVG', 'mXVG', 'bits', 'sat']  # list(dict) does not guarantee order
 
-DECIMAL_POINT_DEFAULT = 5  # mXVG
+DECIMAL_POINT_DEFAULT = 6  # XVG
 
 # types of payment requests
 PR_TYPE_ONCHAIN = 0
