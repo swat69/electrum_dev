@@ -11,8 +11,8 @@ Electrum - Lightweight Bitcoin client
 
 .. image:: https://github.com/vergecurrency/electrum/workflows/Lint%20Electrum/badge.svg?branch=master
 .. image:: https://github.com/vergecurrency/electrum/workflows/Windows%20Electrum/badge.svg?branch=master
-.. image:: https://github.com/vergecurrency/electrum/workflows/MacOS%20build/badge.svg?branch=master
-
+.. image:: https://github.com/vergecurrency/electrum/workflows/MacOS%20build/badge.svg?branch=master 
+.. image:: https://img.shields.io/github/downloads/vergecurrency/electrum/total
 
 
 
