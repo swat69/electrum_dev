@@ -1,6 +1,5 @@
-Electrum - Lightweight Bitcoin client
+ALPHA Electrum Port - Lightweight VERGE client
 =====================================
-
 ::
 
   Licence: MIT Licence
