@@ -1,11 +1,11 @@
 {
-  "electrum.verge.dev": {
+  "qz6pnufyqjexudq6.onion": {
     "pruning": "-",
     "s": "50002",
     "t": "50001",
     "version": "1.4"
   },
-  "node1.verge-electrum.com": {
+  "jx5tldmayybm2pui.onion": {
     "pruning": "-",
     "s": "50002",
     "t": "50001",
