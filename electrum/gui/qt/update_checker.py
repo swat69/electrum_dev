@@ -19,7 +19,7 @@ from electrum.logging import Logger
 
 
 class UpdateCheck(QWidget, Logger):
-    url = "https://vergecurrency.com/version"
+    url = "https://vergecurrency.com/static/version"
     download_url = "https://vergecurrency.com/wallets/"
 
     VERSION_ANNOUNCEMENT_SIGNING_KEYS = (
