@@ -10,5 +10,10 @@
     "s": "50002",
     "t": "50001",
     "version": "1.4"
+  },
+  "4eif6aox6iwhmqff.onion": {
+    "pruning": "-",
+    "s": "50002",
+    "version": "1.4"
   }
 }
