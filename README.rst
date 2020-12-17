@@ -1,18 +1,18 @@
-Electrum - Lightweight Bitcoin client
+ALPHA Electrum Port - Lightweight VERGE client
 =====================================
-
 ::
 
   Licence: MIT Licence
-  Author: Thomas Voegtlin
+  Original Author: Thomas Voegtlin
+  Modified to be compatible with the Verge Blockchain
   Language: Python (>= 3.6)
-  Homepage: https://electrum.org/
+  Homepage: https://vergecurrency.com
 
 
 .. image:: https://github.com/vergecurrency/electrum/workflows/Lint%20Electrum/badge.svg?branch=master
 .. image:: https://github.com/vergecurrency/electrum/workflows/Windows%20Electrum/badge.svg?branch=master
-.. image:: https://github.com/vergecurrency/electrum/workflows/MacOS%20build/badge.svg?branch=master
-
+.. image:: https://github.com/vergecurrency/electrum/workflows/MacOS%20build/badge.svg?branch=master 
+.. image:: https://img.shields.io/github/downloads/vergecurrency/electrum/total
 
 
 

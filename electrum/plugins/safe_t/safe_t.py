@@ -159,7 +159,7 @@ class SafeTPlugin(HW_PluginBase):
         return client
 
     def get_coin_name(self):
-        return "Testnet" if constants.net.TESTNET else "Bitcoin"
+        return "Testnet" if constants.net.TESTNET else "Verge"
 
     def initialize_device(self, device_id, wizard, handler):
         # Initialization method
@@ -473,6 +473,7 @@ class SafeTPlugin(HW_PluginBase):
             return t
         d = deserialize(tx.raw)
         t.version = d['version']
+        t.timestamp = d['time']
         t.lock_time = d['lockTime']
         inputs = self.tx_inputs(tx)
         t._extend_inputs(inputs)
