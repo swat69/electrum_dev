@@ -256,8 +256,6 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             config.set_key('check_updates', bool(choice), save=True)
             
             config.set_key('proxy', 'socks5:localhost:9150::')
-            config.set_key('rpcpassword', 'B1NZHlVSVdmmL-QOUWULuw==')
-            config.set_key('rpcuser', 'user')
             config.set_key('server', 'dummy_not_existing.onion:50002:s')
             
             QMessageBox.about(self, "RESTART",
