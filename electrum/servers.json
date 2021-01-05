@@ -1,11 +1,5 @@
 {
-  "electrum.verge.dev": {
-    "pruning": "-",
-    "s": "50002",
-    "t": "50001",
-    "version": "1.4"
-  },
-  "node1.verge-electrum.com": {
+  "4eif6aox6iwhmqff.onion": {
     "pruning": "-",
     "s": "50002",
     "t": "50001",
