@@ -1880,9 +1880,9 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             except BestEffortRequestFailed as e:
                 return False, repr(e)
             # success
-            key = invoice['id']
+            #key = invoice['id']
             txid = tx.txid()
-            self.wallet.set_paid(key, txid)
+            #self.wallet.set_paid(key, txid)
             if pr:
                 self.payment_request = None
                 refund_address = self.wallet.get_receiving_address()
