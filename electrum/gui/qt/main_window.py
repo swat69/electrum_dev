@@ -254,6 +254,15 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
                                    msg=_("For security reasons we advise that you always use the latest version of Electrum.") + " " +
                                        _("Would you like to be notified when there is a newer version of Electrum available?"))
             config.set_key('check_updates', bool(choice), save=True)
+            
+            config.set_key('proxy', 'socks5:localhost:9150::')
+            config.set_key('server', 'dummy_not_existing.onion:50002:s')
+            
+            QMessageBox.about(self, "RESTART",
+                          (_("The first connection to a VERGE-Electrum-Server via the Tor network " ) +
+                           _("will be available after a RESTART of the wallet" ) + "\n " +
+                           _(" * Please RESTART the wallet now *" ) + "\n\n" +                           
+                           _("Please also remember to start the Tor-Browser")))                
 
         if config.get('check_updates', False):
             # The references to both the thread and the window need to be stored somewhere
@@ -1871,9 +1880,9 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             except BestEffortRequestFailed as e:
                 return False, repr(e)
             # success
-            key = invoice['id']
+            #key = invoice['id']
             txid = tx.txid()
-            self.wallet.set_paid(key, txid)
+            #self.wallet.set_paid(key, txid)
             if pr:
                 self.payment_request = None
                 refund_address = self.wallet.get_receiving_address()

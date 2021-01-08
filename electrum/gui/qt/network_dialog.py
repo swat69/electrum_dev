@@ -215,8 +215,8 @@ class NetworkChoiceLayout(object):
         tabs.addTab(server_tab, _('Server'))
         tabs.addTab(proxy_tab, _('Proxy'))
 
-        fixed_width_hostname = 24 * char_width_in_lineedit()
-        fixed_width_port = 6 * char_width_in_lineedit()
+        fixed_width_hostname = 30 * char_width_in_lineedit()
+        fixed_width_port = 8 * char_width_in_lineedit()
 
         # server tab
         grid = QGridLayout(server_tab)
@@ -258,6 +258,7 @@ class NetworkChoiceLayout(object):
         self.proxy_cb = QCheckBox(_('Use proxy'))
         self.proxy_cb.clicked.connect(self.check_disable_proxy)
         self.proxy_cb.clicked.connect(self.set_proxy)
+        self.proxy_cb.setEnabled(False)
 
         self.proxy_mode = QComboBox()
         self.proxy_mode.addItems(['SOCKS4', 'SOCKS5'])
@@ -288,6 +289,7 @@ class NetworkChoiceLayout(object):
         self.tor_cb.setIcon(read_QIcon("tor_logo.png"))
         self.tor_cb.hide()
         self.tor_cb.clicked.connect(self.use_tor_proxy)
+        self.tor_cb.setEnabled(False)
 
         grid.addWidget(self.tor_cb, 1, 0, 1, 3)
         grid.addWidget(self.proxy_cb, 2, 0, 1, 3)
@@ -337,6 +339,10 @@ class NetworkChoiceLayout(object):
         td.start()
 
         self.fill_in_proxy_settings()
+        self.proxy_cb.setChecked(True)
+        self.tor_cb.setChecked(True)
+        self.check_disable_proxy(9150)
+        self.set_proxy()       
         self.update()
 
     def check_disable_proxy(self, b):
@@ -394,7 +400,7 @@ class NetworkChoiceLayout(object):
     def fill_in_proxy_settings(self):
         proxy_config = self.network.get_parameters().proxy
         if not proxy_config:
-            proxy_config = {"mode": "none", "host": "localhost", "port": "9050"}
+            proxy_config = {"mode": "none", "host": "localhost", "port": "9150"}
 
         b = proxy_config.get('mode') != "none"
         self.check_disable_proxy(b)
