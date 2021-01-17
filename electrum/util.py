@@ -120,10 +120,8 @@ def get_request_status(req):
             expiration = req['exp'] + req['time']
             status_str = _('Expires') + ' ' + age(expiration, include_seconds=True)
         else:
-            #status_str = _('Pending')
-            status = PR_PAID
-            status_str = _('Paid')
-
+            status_str = _('Pending')
+            
     return status, status_str
 
 
