@@ -1900,8 +1900,9 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             if result:
                 status, msg = result
                 if status:
-                    # if tx_desc is not None and tx.is_complete():
-                    #     self.wallet.set_label(tx.txid(), tx_desc)
+                    comment = invoice['message']
+                    if comment is not None and tx.is_complete():
+                        self.wallet.set_label(tx.txid(), comment)
                     parent.show_message(_('Payment sent.') + '\n' + msg)
                     self.invoice_list.update()
                     self.do_clear()
