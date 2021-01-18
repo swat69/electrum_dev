@@ -23,7 +23,7 @@ class UpdateCheck(QWidget, Logger):
     download_url = "https://vergecurrency.com/wallets/"
 
     VERSION_ANNOUNCEMENT_SIGNING_KEYS = (
-        "13xjmVAB1EATPP8RshTE8S8sNwwSUM9p1P",
+        "DMox4Ei18j21DUSQjcpShNhNc2KxYBzqEm",
     )
 
     def __init__(self, main_window, latest_version=None):
