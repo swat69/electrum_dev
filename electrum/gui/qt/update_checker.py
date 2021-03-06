@@ -103,7 +103,7 @@ class UpdateCheckThread(QThread, Logger):
         self.main_window = main_window
 
     async def get_update_info(self):
-        async with make_aiohttp_session(proxy=self.main_window.network.proxy) as session:
+        async with make_aiohttp_session(proxy=self.main_window.network.proxy, timeout=120) as session:
             async with session.get(UpdateCheck.url) as result:
                 signed_version_dict = await result.json(content_type=None)
                 # example signed_version_dict:

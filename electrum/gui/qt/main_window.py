@@ -269,7 +269,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             # to prevent GC from getting in our way.
             def on_version_received(v):
                 if UpdateCheck.is_newer(v):
-                    self.update_check_button.setText(_("Update to Electrum {} is available").format(v))
+                    self.update_check_button.setText(_("Update to Verge Electrum {} is available").format(v))
                     self.update_check_button.clicked.connect(lambda: self.show_update_check(v))
                     self.update_check_button.show()
             self._update_check_thread = UpdateCheckThread(self)
@@ -1900,8 +1900,9 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             if result:
                 status, msg = result
                 if status:
-                    # if tx_desc is not None and tx.is_complete():
-                    #     self.wallet.set_label(tx.txid(), tx_desc)
+                    comment = invoice['message']
+                    if comment is not None and tx.is_complete():
+                        self.wallet.set_label(tx.txid(), comment)
                     parent.show_message(_('Payment sent.') + '\n' + msg)
                     self.invoice_list.update()
                     self.do_clear()
