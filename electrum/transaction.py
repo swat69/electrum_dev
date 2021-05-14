@@ -618,7 +618,7 @@ class Transaction:
         self.time = int(time.time())
         # by default we assume this is a partial txn;
         # this value will get properly set when deserializing
-        self.is_partial_originally = True
+        self.is_partial_originally = False
         self._segwit_ser = None  # None means "don't know"
         self.output_info = None  # type: Optional[Dict[str, TxOutputHwInfo]]
 
