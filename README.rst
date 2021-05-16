@@ -1,4 +1,4 @@
-ALPHA Electrum Port - Lightweight VERGE client
+Electrum Port - Lightweight VERGE client
 =====================================
 ::
 
