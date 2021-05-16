@@ -7,3 +7,6 @@
 [submodule "electrum/www"]
 	path = electrum/www
 	url = https://github.com/spesmilo/electrum-http.git
+[submodule "btchip-python"]
+	path = btchip-python
+	url = https://github.com/h3ph4est7s/btchip-python
