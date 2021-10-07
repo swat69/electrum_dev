@@ -5,8 +5,10 @@ include *.py
 include run_electrum
 include contrib/requirements/requirements.txt
 include contrib/requirements/requirements-hw.txt
+include btchip-python
 recursive-include packages *.py
 recursive-include packages cacert.pem
+recursive-include btchip-python *
 
 graft electrum
 prune electrum/tests
